@@ -40,8 +40,8 @@
 
                 const data = await response.text();
                 displayPopupMessage(data);
-
-            } catch (err) {
+            } 
+            catch (err) {
                 displayPopupMessage("Error requesting verification code.");
                 console.error(err);
             }
@@ -50,7 +50,12 @@
         async function submitRegisterForm() {
             const formData = new FormData(registerForm);
 
-            if (formData.get("password") !== formData.get("confirmPassword")) {
+            if (formData.get("password").trim().length < 6) {
+                displayPopupMessage("Password must contain at least 6 characters.");
+                return;
+            }
+
+            if (formData.get("password").trim() !== formData.get("confirmPassword").trim()) {
                 displayPopupMessage("Passwords do not match.");
                 return;
             }
@@ -63,12 +68,8 @@
 
                 const data = await response.text();
                 displayPopupMessage(data);
-
-                if (data.toLowerCase().includes("success")) {
-                    window.location.href = "login.php";
-                }
-
-            } catch (err) {
+            } 
+            catch (err) {
                 displayPopupMessage("Registration failed.");
                 console.error(err);
             }
