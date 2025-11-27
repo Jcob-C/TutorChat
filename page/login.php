@@ -19,10 +19,11 @@ function login() {
     $cleanPassword = trim($_POST['password']);
 
     if (password_verify($cleanPassword, getHashedPassword($cleanEmail))) {
+        $_SESSION = [];
         $_SESSION['userID'] = getUserID($cleanEmail);
 
         if (getUserRole($_SESSION['userID']) === 'admin') {
-            headTo("home.php");
+            headTo("admin.php");
         }
         else {
             headTo("home.php");
@@ -39,7 +40,7 @@ function login() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/popupMessage.css">
+    <link rel="stylesheet" href="../assets/popupMessage.css">
 </head>
 <body>
     <form method="post">

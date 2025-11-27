@@ -14,7 +14,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE verification_codes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
     code INT NOT NULL,
     expires TIMESTAMP NOT NULL
@@ -37,20 +37,15 @@ CREATE TABLE feedbacks (
 );
 
 CREATE TABLE tutor_sessions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    topic VARCHAR(255) NOT NULL,
+    topic_id INT NOT NULL,
     pre_score INT NOT NULL,
     post_score INT NOT NULL,
+    messages JSON NOT NULL,
     concluded DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE session_messages (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    session_id INT NOT NULL,
-    text_message TEXT NOT NULL,
-    FOREIGN KEY (session_id) REFERENCES tutoring_sessions(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (topic_id) REFERENCES topics(id) ON DELETE CASCADE
 );
 ```
 
