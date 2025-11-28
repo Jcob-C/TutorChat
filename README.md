@@ -103,22 +103,3 @@ CREATE TABLE tutor_sessions (
 * Each database table has its own file (e.g., `users.php`, `posts.php`).
 * Contains **all SQL queries**.
 * No SQL in `/api` or `/page`.
-
----
-
-## **How to Build New Features**
-
-1. **Add/modify the page** → `/page`
-2. **Create API endpoints if needed** → `/api`
-3. **Add or update database functions** → `/utils/database`
-4. **Create or find helper functions** if reusable → `/utils`
-5. **Add or find config values** if environment-dependent → `/config`
-
----
-
-## **Best Practices**
-
-* Keep SQL only in `/utils/database`.
-* Reuse utility functions—avoid duplicating code.
-* Always validate and sanitize user input.
-* Never expose production secrets.
