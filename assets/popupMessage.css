@@ -1,39 +1,94 @@
+/* TutorChat Popup Message Styles */
+
 #popupMessage {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    
-    background: rgb(0, 0, 0);
-    padding: 20px 30px;
-    border-radius: 10px;
-    
+    background: #1a1a1a;
+    padding: 2rem 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.4);
     z-index: 9999;
-    text-align: center;
-    
+    min-width: 320px;
+    max-width: 500px;
+    border: 2px solid #8b5cf6;
+    animation: popupSlideIn 0.3s ease-out;
+    overflow: hidden;
+}
+
+#popupMessage::before {
+    content: '';
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: -1;
+}
+
+#popupMessage span {
     display: block;
-    
-    width: 300px;
-    max-width: 90%;
-    box-sizing: border-box;
+    color: #ffffff;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-right: 1rem;
+    text-align: center;
 }
 
 #closePopup {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    color: rgb(255, 255, 255);
-    
-    background: transparent;
+    top: 1rem;
+    right: 1rem;
+    background: #8b5cf6;
+    color: #ffffff;
     border: none;
-    font-size: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: bold;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
 }
 
-#popupMessage span {
-    color: rgb(255, 255, 255);
-    display: block;
-    margin-top: 20px;
-    word-wrap: break-word;
+#closePopup:hover {
+    background: #7c3aed;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.5);
+}
+
+#closePopup:active {
+    transform: scale(0.95);
+}
+
+/* Slide in animation */
+@keyframes popupSlideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+    #popupMessage {
+        min-width: 280px;
+        max-width: calc(100% - 2rem);
+        padding: 1.5rem 2rem;
+    }
+    
+    #popupMessage span {
+        font-size: 0.95rem;
+    }
 }

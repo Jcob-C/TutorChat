@@ -1,0 +1,33 @@
+:root {
+    --primary-purple: #6f42c1;
+    --dark-purple: #5a32a3;
+    --black: #1a1a1a;
+}
+
+body {
+    background: linear-gradient(135deg, var(--black) 0%, var(--dark-purple) 100%);
+}
+
+.text-brand { 
+    color: var(--primary-purple) !important; 
+}
+
+.btn-brand {
+    background: var(--primary-purple);
+    border-color: var(--primary-purple);
+    color: white;
+}
+
+.btn-brand:hover {
+    background: var(--dark-purple);
+    border-color: var(--dark-purple);
+    color: white;
+}
+
+.link-brand { 
+    color: var(--primary-purple); 
+}
+
+.link-brand:hover { 
+    color: var(--dark-purple); 
+}
