@@ -181,11 +181,11 @@ redirectAdmin();
             })
             .then(res => res.text())
             .then(response => {
-                if (response.trim() !== "saved") {
-                    displayPopupMessage("Please try again.");
-                } else {
+                if (response.trim() === "saved") {
                     allowLeave = true;
                     window.location.href = "posttest.php";
+                } else {
+                    displayPopupMessage("Please try again.");
                 }
             })
             .catch(err => {

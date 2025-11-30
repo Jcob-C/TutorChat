@@ -26,10 +26,12 @@ function redirectIfSkippedSessionProcedure($page) {
     $prescoreSet = isset($_SESSION['tutorSession']['prescore']);
     $messagesSet = isset($_SESSION['tutorSession']['messages']);
     $summarySet = isset($_SESSION['tutorSession']['summary']);
+    $postscoreSet = isset($_SESSION['tutorSession']['postscore']);
 
     if ((!$topicSet && $page === 'pretest') 
     || ((!$topicSet || !$prescoreSet) && $page === 'chat') 
-    || ((!$topicSet || !$prescoreSet || !$messagesSet || !$summarySet) && ($page === 'posttest' || $page === 'conclusion'))) {
+    || ((!$topicSet || !$prescoreSet || !$messagesSet || !$summarySet) && $page === 'posttest') 
+    || ((!$topicSet || !$prescoreSet || !$messagesSet || !$summarySet || !$postscoreSet) && $page === 'conclusion')) {
         unset($_SESSION['tutorSession']);
         headTo('../page/home.php');
     }
