@@ -27,6 +27,7 @@ function checkPost() {
             $_SESSION['tutorSession']['messages'],
             $_SESSION['tutorSession']['summary']
         );
+        unset($_SESSION['tutorSession']);
         headTo('conclusion.php');
     }
     clearPost();

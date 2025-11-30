@@ -41,7 +41,7 @@ redirectAdmin();
             <div class="col-12">
                 <div class="bg-dark bg-opacity-75 border border-secondary rounded-3 p-3 shadow">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="h4 fw-bold mb-0 text-brand"><?= getTopicTitle($_SESSION['tutorSession']['topicID']) ?></h2>
+                        <h2 id="topicTitle" class="h4 fw-bold mb-0 text-brand"><?= getTopicTitle($_SESSION['tutorSession']['topicID']) ?></h2>
                         <a id="saveSessionBtn" class="btn btn-outline-light btn-sm">
                             <i class="bi bi-box-arrow-right"></i> Save Session
                         </a>
@@ -79,6 +79,7 @@ redirectAdmin();
         const chatContainer = document.getElementById('chatContainer');
         const chatInput = document.getElementById('chatInput');
         const sendButton = document.querySelector('button');
+        const topicTitle = document.getElementById("topicTitle").innerText.trim();
 
         const chatHistory = [];
 
@@ -111,7 +112,7 @@ redirectAdmin();
                             <i class="bi bi-robot text-white fs-5"></i>
                         </div>
                         <div class="bg-secondary bg-opacity-75 rounded-3 p-3">
-                            <p class="mb-0 text-white">${message}</p>
+                            <p class="mb-0 text-white">${markdownToHTML(message)}</p>
                         </div>
                     </div>
                 `;
@@ -123,7 +124,7 @@ redirectAdmin();
 
         let canSend = true; // flag to control sending in sendMessage()
 
-        function sendMessage() {
+        async function sendMessage() {
             const message = chatInput.value.trim();
 
             if (!canSend) {
@@ -131,25 +132,54 @@ redirectAdmin();
                 return;
             }
 
-            if (message) {
-                addChatMessage(message, true);
-                chatInput.value = '';
-                canSend = false; // block sending until AI responds
+            if (!message) return;
 
-                // Simulate AI response (replace with actual API call)
-                setTimeout(() => {
-                    // Example: random failure or success
-                    const success = Math.random() > 0.2; // 80% chance of success
+            // Add user message to UI + chat history
+            addChatMessage(message, true);
+            chatInput.value = '';
+            canSend = false;
 
-                    if (success) {
-                        addChatMessage('This is an AI response.', false);
-                    } else {
-                        addChatMessage('Failed to get response. Please try again.', false);
-                    }
+            // Prepare payload for backend
+            const payload = {
+                chatHistory: chatHistory,
+                newMessage: message,
+                topicTitle: topicTitle
+            };
 
-                    canSend = true; // allow sending new messages after response
-                }, 1000);
+            try {
+                const response = await fetch('../api/Responder.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error: ${response.status}`);
+                }
+
+                const result = await response.text(); 
+                // PHP echoes back plain text → no JSON decoding
+
+                // Add AI response to chat
+                addChatMessage(result, false);
+            } 
+            catch (error) {
+                console.error("Error contacting backend:", error);
+                addChatMessage("Failed to get response. Please try again.", false);
             }
+
+            canSend = true; // unlock sending
+        }
+
+        function markdownToHTML(md) {
+            return md
+                .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/\n/g, '<br>');
         }
 
         sendButton.addEventListener('click', sendMessage);
