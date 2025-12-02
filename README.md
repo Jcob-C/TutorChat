@@ -41,7 +41,6 @@ CREATE TABLE tutor_sessions (
     quiz_score INT NOT NULL,
     transcript JSON NOT NULL,
     concluded DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (topic_id) REFERENCES topics(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 ```
