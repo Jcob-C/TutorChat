@@ -24,6 +24,31 @@ function getSession($conn,  $id) {
     return $session;
 }
 
+function getLastSessionByTopicSortedByScoreAsc($conn, $id, $limit, $page) {
+    $offset = ($page - 1) * $limit;
+    $stmt = $conn->prepare("
+        SELECT s1.topic_title, s1.quiz_score 
+        FROM tutor_sessions s1
+        INNER JOIN (
+            SELECT topic_title, MAX(concluded) as last_concluded
+            FROM tutor_sessions
+            WHERE user_id = ?
+            GROUP BY topic_title
+        ) s2 ON s1.topic_title = s2.topic_title AND s1.concluded = s2.last_concluded
+        WHERE s1.user_id = ?
+        ORDER BY s1.quiz_score ASC
+        LIMIT ? OFFSET ?
+    ");
+    $stmt->bind_param("iiii", $id, $id, $limit, $offset);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $sessions = $result->fetch_all(MYSQLI_ASSOC);
+
+    $stmt->close();
+    return $sessions;
+}
+
 function getLatestUserSessions($conn, $userID, $limit, $page) {
     $offset = ($page - 1) * $limit;
     $stmt = $conn->prepare("

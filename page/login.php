@@ -34,7 +34,7 @@ function login() {
             header("Location: admin.php"); exit;
         }
         else {
-            header("Location: home.php"); exit;
+            header("Location: learn.php"); exit;
         }
     }
     else {

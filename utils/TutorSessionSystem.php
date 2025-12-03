@@ -1,7 +1,7 @@
 <?php
-function startNewSession($topicID) {
+function startNewSession($topicTitle) {
     $_SESSION['ongoingTutorSession'] = [];
-    $_SESSION['ongoingTutorSession']['topicID'] = $topicID;
+    $_SESSION['ongoingTutorSession']['topicTitle'] = $topicTitle;
     header("Location: ../page/chat.php"); exit;
 }
 ?>

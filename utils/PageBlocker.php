@@ -9,15 +9,15 @@ function redirectUnauthorized($conn) {
     }
 }
 
-function redirectAdmin($conn) {
+function redirectAdmin() {
     if ($_SESSION['loggedinUserRole'] === 'admin') {
         header('Location: ../page/admin.php'); exit;
     }
 }
 
-function redirectLearner($conn) {
+function redirectLearner() {
     if ($_SESSION['loggedinUserRole'] === 'learner') {
-        header('Location: ../page/home.php'); exit;
+        header('Location: ../page/learn.php'); exit;
     }
 }
 ?>
