@@ -13,7 +13,7 @@ displayPopupMessage();
 if (isset($_POST['startSession'])) {
     $topic = trim(isset($_POST['topicTitle']) ? $_POST['topicTitle'] : $_POST['startSession']);
     if ($topic != '') {
-        startNewSession($title);
+        startNewSession($topic);
     }
     else {
         setPopupMessage("Please enter a topic.");
@@ -52,6 +52,7 @@ if (isset($_POST['startSession'])) {
                 <div class="card shadow-sm h-100">
                     <div class="card-header bg-warning bg-opacity-10 border-0">
                         <h2 class="h5 mb-0"><i class="bi bi-lightbulb text-warning me-2"></i>Learn Something New</h2>
+                        <small class="text-muted">Recently Added</small>
                     </div>
                     <div class="card-body">
                         <div class="input-group input-group-sm mb-3">
@@ -85,6 +86,7 @@ if (isset($_POST['startSession'])) {
                 <div class="card shadow-sm h-100">
                     <div class="card-header bg-success bg-opacity-10 border-0">
                         <h2 class="h5 mb-0"><i class="bi bi-check-circle text-success me-2"></i>Completed Topics</h2>
+                        <small class="text-muted">Sorted by Last Quiz Score</small>
                     </div>
                     <div class="card-body">
                         <div id="completedContainer" class="list-group list-group-flush mb-3">
@@ -219,7 +221,7 @@ if (isset($_POST['startSession'])) {
             card.innerHTML = `
                 <div class="overflow-hidden">
                     <div class="fw-medium text-truncate" style="min-width: 0;">${topicTitle}</div>
-                    <span class="badge bg-success mt-1">Last Score: ${lastScore}%</span>
+                    <span class="badge bg-primary mt-1">Last Score: ${lastScore}%</span>
                 </div>
                 <form method="post" class="flex-shrink-0">
                     <button type="submit" name="startSession" value="${topicTitle}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-repeat me-1"></i>Revisit</button>
