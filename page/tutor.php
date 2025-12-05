@@ -32,8 +32,8 @@ if (!isset($_SESSION['ongoingTutorSession']) || !isset($_SESSION['ongoingTutorSe
                 <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#topicPlanModal">
                     <i class="bi bi-journal-text"></i> View
                 </button>
-                <button class="btn btn-primary btn-sm">
-                    <i class="bi bi-save"></i> End
+                <button class="btn btn-primary btn-sm" onclick="saveSession();">
+                    <i class="bi bi-save"></i> Save
                 </button>
             </div>
         </div>
@@ -45,7 +45,7 @@ if (!isset($_SESSION['ongoingTutorSession']) || !isset($_SESSION['ongoingTutorSe
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="topicPlanModalLabel">
-                        <i class="bi bi-journal-text text-primary"></i> Lesson Plan
+                        <i class="bi bi-journal-text text-primary"></i> Tutor Plan
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -114,6 +114,8 @@ if (!isset($_SESSION['ongoingTutorSession']) || !isset($_SESSION['ongoingTutorSe
         const proceedButton = document.getElementById('proceedButton');
         
         let currentRequestId = 0;
+        let currentSaveRequestId = 0;
+        let allowLeave = false;
 
         function sendMessage(message) {
             if (!message || message.trim() === '') return;
@@ -199,12 +201,12 @@ if (!isset($_SESSION['ongoingTutorSession']) || !isset($_SESSION['ongoingTutorSe
                 
                 // Re-attach event listener to new button
                 document.getElementById('proceedButton').addEventListener('click', () => {
-                    sendMessage('Proceed.');
+                    sendMessage("Let's proceed with the next section of the tutor plan.");
                 });
             }
             
             // Scroll to bottom
-            conversationContainer.scrollTop = conversationContainer.scrollHeight;
+            row.scrollIntoView({ behavior: "smooth", block: "start" });
         }
 
         async function fetchResponse() {
@@ -301,6 +303,34 @@ if (!isset($_SESSION['ongoingTutorSession']) || !isset($_SESSION['ongoingTutorSe
             }
         }
 
+        async function saveSession() {
+            try {
+                displayPopupMessage("Saving session...");
+                const response = await fetch('../api/SaveSession.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(chatHistory)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.text();
+
+                if (result == "Saved.") {
+                    allowLeave = true;
+                    window.location.href = "learn.php"
+                } else {
+                    displayPopupMessage("Failed, please try again.");
+                }
+            } catch (error) {
+                displayPopupMessage("Failed, please try again.");
+            }
+        }
+
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
@@ -324,7 +354,14 @@ if (!isset($_SESSION['ongoingTutorSession']) || !isset($_SESSION['ongoingTutorSe
             }
         });
 
-        sendMessage('Hello!');
+        window.addEventListener("beforeunload", function (event) {
+            if (!allowLeave) {
+                event.preventDefault();         
+                event.returnValue = "";  
+            }   
+        });
+
+        sendMessage("Let's Chat!");
     </script>
 </body>
 </html>

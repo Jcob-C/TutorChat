@@ -3,8 +3,8 @@ require_once __DIR__ . '/../config/ai.php';
 
 function generateLessonPlan($topic) {
     return generateText("
-    Your response should be **HTML-formatted**. Please **do not use markdown formatting** or code block markers (like ```html``` or ```). Instead, directly return HTML tags such as <h2>, <ul>, <li>, <p>, <strong>, and <em> to structure your answers clearly and make the content easy to read.
-    You don't need to use <!DOCTYPE html>, <html>, <head>, or anything outside <body>. Your output will be put straight into already existing <body>. 
+    Your response should be **HTML-formatted**. Please **do not use markdown formatting** or code block markers (like ```html``` or ```). Instead, directly return HTML tags such as <h2>, <h3>, <ul>, <li>, <p>, <strong>, and <em> to structure your answers clearly and make the content easy to read.
+    You don't need to use <!DOCTYPE html>, <html>, <head>, or anything usually outside <body>. Your output will be put straight inside an already existing <body></body>.  
     Don't use <h1>, as it is too large. Start with <h2> as the largest heading.
     
     Create a structured lesson plan for the topic '$topic' designed to guide an engaging and interactive discussion. The lesson plan should include the following sections:

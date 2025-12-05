@@ -38,7 +38,8 @@ CREATE TABLE tutor_sessions (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     topic_title VARCHAR(255) NOT NULL,
-    quiz_score INT NOT NULL,
+    topic_plan TEXT NOT NULL,
+    quiz_score INT,
     transcript JSON NOT NULL,
     concluded DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE

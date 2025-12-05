@@ -40,7 +40,8 @@ if (isset($_POST['startSession'])) {
                 <h1 class="h3 mb-0 text-nowrap"><i class="bi bi-chat-dots-fill icon-primary"></i> TutorChat</h1>
                 <nav class="d-flex flex-wrap gap-3 align-items-center">
                     <a href="learn.php" class="text-decoration-none fw-bold"><i class="bi bi-book me-1"></i>Learn</a>
-                    <a href="analytics.php" class="text-decoration-none"><i class="bi bi-speedometer2 me-1"></i>Analytics</a>
+                    <a href="analytics.php" class="text-decoration-none"><i class="bi bi-clock-history me-1"></i>History</a>
+                    <a href="learn.php" class="text-decoration-none"><i class="bi bi-book me-1"></i>Feedback</a>
                     <a href="settings.php" class="text-decoration-none"><i class="bi bi-person-circle me-1"></i>Settings</a>
                 </nav>
             </div>
@@ -70,7 +71,7 @@ if (isset($_POST['startSession'])) {
                             <div class="d-flex gap-2">
                                 <form method="post" class="w-100 d-flex gap-2">
                                     <input type="text" name="topicTitle" class="form-control form-control-sm" placeholder="Can't find what you're looking for?" required>
-                                    <button type="submit" name="startSession" class="btn btn-outline-primary btn-sm text-nowrap flex-shrink-0"><i class="bi bi-chat-dots me-1"></i>Chat</button>
+                                    <button onclick="displayPopupMessage('Generating tutor plan, please wait.');" type="submit" name="startSession" class="btn btn-outline-primary btn-sm text-nowrap flex-shrink-0"><i class="bi bi-chat-dots me-1"></i>Chat</button>
                                 </form>
                             </div>
                         </div>
@@ -86,7 +87,7 @@ if (isset($_POST['startSession'])) {
                 <div class="card shadow-sm h-100">
                     <div class="card-header bg-success bg-opacity-10 border-0">
                         <h2 class="h5 mb-0"><i class="bi bi-check-circle text-success me-2"></i>Completed Topics</h2>
-                        <small class="text-muted">Sorted by Last Quiz Score</small>
+                        <small class="text-muted">Lowest Quiz Scores</small>
                     </div>
                     <div class="card-body">
                         <div id="completedContainer" class="list-group list-group-flush mb-3">
@@ -107,6 +108,7 @@ if (isset($_POST['startSession'])) {
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../utils/PopupMessage/.js"></script>
     <script>
         const learnnewContainer = document.getElementById("learnnewContainer");
         const completedContainer = document.getElementById("completedContainer");
@@ -209,7 +211,7 @@ if (isset($_POST['startSession'])) {
             card.innerHTML = `
                 <span class="text-truncate" style="min-width: 0;">${topicTitle}</span>
                 <form method="post" class="flex-shrink-0">
-                    <button type="submit" name="startSession" value="${topicTitle}" class="btn btn-primary btn-sm"><i class="bi bi-chat-dots me-1"></i>Chat</button>
+                    <button onclick="displayPopupMessage('Generating tutor plan, please wait.');" type="submit" name="startSession" value="${topicTitle}" class="btn btn-primary btn-sm"><i class="bi bi-chat-dots me-1"></i>Chat</button>
                 </form>
             `;
             learnnewContainer.appendChild(card);
@@ -224,7 +226,7 @@ if (isset($_POST['startSession'])) {
                     <span class="badge bg-primary mt-1">Last Score: ${lastScore}%</span>
                 </div>
                 <form method="post" class="flex-shrink-0">
-                    <button type="submit" name="startSession" value="${topicTitle}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-repeat me-1"></i>Revisit</button>
+                    <button onclick="displayPopupMessage('Generating tutor plan, please wait.');" type="submit" name="startSession" value="${topicTitle}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-repeat me-1"></i>Revisit</button>
                 </form>
             `;
             completedContainer.appendChild(card);
