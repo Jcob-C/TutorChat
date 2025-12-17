@@ -28,7 +28,7 @@ function getTopicPlan($conn, $topicTitle) {
 function getTopicSearch($conn, $keyword, $limit, $page) {
     $offset = ($page - 1) * $limit;
     $search = "%{$keyword}%";
-    $stmt = $conn->prepare("SELECT * FROM topics WHERE title LIKE ? ORDER BY id DESC LIMIT ? OFFSET ?");
+    $stmt = $conn->prepare("SELECT * FROM topics WHERE title LIKE ? AND available = TRUE ORDER BY id DESC LIMIT ? OFFSET ?");
     $stmt->bind_param("sii", $search, $limit, $offset);
     $stmt->execute();
 

@@ -21,7 +21,8 @@ CREATE TABLE verification_codes (
 CREATE TABLE topics (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    plan TEXT NOT NULL
+    plan TEXT NOT NULL,
+    available BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE tutor_sessions (

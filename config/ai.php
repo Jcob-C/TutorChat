@@ -1,3 +1,3 @@
 <?php
-const geminiAPIKey = "";
+const aiAPIKey = "";
 ?>
