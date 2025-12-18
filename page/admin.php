@@ -418,7 +418,7 @@ $activeTab = isset($_GET['tab']) ? $_GET['tab'] : 'topics';
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Password</label>
-                            <input type="password" class="form-control" name="pass" required>
+                            <input type="text" class="form-control" name="pass" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Role</label>
