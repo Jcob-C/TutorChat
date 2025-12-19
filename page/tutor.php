@@ -144,7 +144,8 @@ redirectFromTutor();
             messageDiv.appendChild(bubble);
             messagesContainer.appendChild(messageDiv);       
             const container = document.getElementById('chatMessagesContainer');
-            container.scrollTop = container.scrollHeight;
+            const messageTop = messageDiv.offsetTop;
+            container.scrollTop = messageTop - 110;
             if (isUser) {
                 lastUserMessage = message;
             } else {
